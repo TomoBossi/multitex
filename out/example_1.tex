@@ -1,0 +1,28 @@
+\newif\ifb % 2da clase
+\newif\ifa % 3era clase...
+\bfalse
+\afalse
+
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{listings}
+
+\title{Actividad 1 - Figuritas }
+
+\begin{document}
+	\maketitle
+	\section*{?`Cu\'antas figus hay que comprar para llenar el \'album?}
+	\subsection*{Simulaciones}
+
+	\begin{enumerate}
+		\item Implementar una funci\'on  que genere un \'album de tama\~no \lstinline{figus_total}, 
+		simule su llenado, y devuelva la cantidad \ifb{de figuritas }\fi que se tuvieron que adquirir para completarlo.
+	
+		Recordar, al comienzo del \textit{script}, importar el m\'odulo \texttt{random} con el comando \textbf{import random} para poder, por ejemplo, poder simular el comportamiento de un dado numerado de 0 a 5 haciendo \lstinline{random.randint(0,5)}.
+		\ifb
+			\item Implementar una funci\'on que debe devolver una lista con una cantidad de elementos igual a \lstinline{n_albumes}, donde cada elemento sea la cantidad de figuritas 
+		necesarias para llenar el álbum\ifa{ en cada simulación}\fi.
+		\fi
+	\end{enumerate}
+\end{document}
