@@ -60,7 +60,7 @@ def multitex(tex: str, output_directory: str, compile: bool = True, base_suffix:
     output_content(content, tex, output_directory, compile, base_suffix)
 
     for level, flag in sorted(levels.items()):
-        content = content.replace(f'\{flag}false', f'\{flag}true')
+        content = content.replace(f'\\{flag}false', f'\\{flag}true')
         output_content(content, tex, output_directory, compile, level)
 
     cleanup(output_directory)
@@ -69,7 +69,7 @@ def multitex(tex: str, output_directory: str, compile: bool = True, base_suffix:
 if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
     
-    parser = argparse.ArgumentParser(description='Provide a .tex file, an output directory, and optionally specify whether or not the generated .tex files should be compiled and provide a suffix for the base case filenames')
+    parser = argparse.ArgumentParser(description='Generate and compile a series of .tex files that build on top of each other, from a single source .tex')
     parser.add_argument('tex', type=str, help='Path to the .tex file to be multitexed :)')
     parser.add_argument('dir', type=str, help='Path to the output directory where the generated .tex files and compiled .pdf files will be saved')
     parser.add_argument('--compile', type=bool, default=True, help='Specifies whether or not the generated .tex files should be compiled using pdflatex (Optional, default value is True)')
