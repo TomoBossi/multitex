@@ -1,28 +1,22 @@
-\newif\ifb % 2da clase
-\newif\ifa % 3era clase...
-\bfalse
-\afalse
-
 \documentclass[a4paper,11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{enumerate}
 \usepackage{listings}
 
-\title{Actividad 1 - Figuritas }
+% Use \newif\if{{<number>}} to define boolean flags for each cumulative level,
+% and explicitly set them all to false using \{{<number>}}false
+\newif\ifb % 2nd level, includes base contents
+\newif\ifa % 3rd level, includes 2nd level contents and base contents...
+\bfalse
+\afalse
 
+\title{Example}
 \begin{document}
 	\maketitle
-	\section*{?`Cu\'antas figus hay que comprar para llenar el \'album?}
-	\subsection*{Simulaciones}
-
 	\begin{enumerate}
-		\item Implementar una funci\'on  que genere un \'album de tama\~no \lstinline{figus_total}, 
-		simule su llenado, y devuelva la cantidad \ifb{de figuritas }\fi que se tuvieron que adquirir para completarlo.
-	
-		Recordar, al comienzo del \textit{script}, importar el m\'odulo \texttt{random} con el comando \textbf{import random} para poder, por ejemplo, poder simular el comportamiento de un dado numerado de 0 a 5 haciendo \lstinline{random.randint(0,5)}.
+		\item This item is part of the base contents of the document.\ifb{ This sentence is only shown at levels 2 and above.}\fi
 		\ifb
-			\item Implementar una funci\'on que debe devolver una lista con una cantidad de elementos igual a \lstinline{n_albumes}, donde cada elemento sea la cantidad de figuritas 
-		necesarias para llenar el álbum\ifa{ en cada simulación}\fi.
+			\item This item is only shown at levels 2 and above.\ifa{ This sentence is only shown at level 3.}\fi
 		\fi
 	\end{enumerate}
 \end{document}
