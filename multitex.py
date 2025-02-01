@@ -51,9 +51,8 @@ def cleanup(directory: str, blacklist: list[str] = ['.aux', '.log', '.out', '.to
             os.remove(file_path)
 
 def multitex(tex: str, output_directory: str, compile: bool = True, base_suffix: str = '') -> None:
-    if os.path.exists(output_directory):
-        shutil.rmtree(output_directory)
-    os.mkdir(output_directory)
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
 
     levels = compilation_levels(tex)
     content = sanitize_tex(tex, output_directory, levels)
