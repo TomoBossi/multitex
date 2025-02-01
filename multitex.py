@@ -15,32 +15,35 @@ def flag_generator() -> str:
             yield result
         length += 1
 
-def compilation_levels(tex: str, pattern: str = r'{{(\d+)}}') -> dict[str, str]:
-    flag = flag_generator()
-    with open(tex, 'r') as file:
+def parse_levels(tex_path: str, pattern: str = r'{{(\d+)}}') -> list[str]:
+    with open(tex_path, 'r') as file:
         results = sorted(list(set(re.findall(pattern, file.read()))))
-    return {level: next(flag) for level in results}
+    return results
 
-def sanitize_tex(tex: str, levels: dict[str, str]) -> str:
-    with open(tex, 'r') as file:
+def map_level_flags(levels: list[str]) -> dict[str, str]:
+    flag = flag_generator()
+    return {level: next(flag) for level in levels}
+
+def sanitize_tex(tex_path: str, levels: dict[str, str]) -> str:
+    with open(tex_path, 'r') as file:
         content = file.read()
         for level, flag in levels.items():
             content = content.replace(f'{{{{{level}}}}}', flag)
     return content
 
-def write_content(content: str, tex: str, output_directory: str, suffix: str) -> str:
-    file_path = os.path.join(output_directory, f'{tex}{f'_{suffix}' if suffix else ''}.tex')
-    with open(file_path, 'w') as file:
+def write_content(content: str, tex_file_name: str, output_directory: str, suffix: str) -> str:
+    tex_path = os.path.join(output_directory, f'{tex_file_name}{f'_{suffix}' if suffix else ''}.tex')
+    with open(tex_path, 'w') as file:
        file.write(content)
-    return file_path
+    return tex_path
 
-def compile_tex(tex: str, output_directory: str) -> None:
-    subprocess.check_call(['pdflatex', '-output-directory', output_directory, tex])
+def compile_tex(tex_path: str, output_directory: str) -> None:
+    subprocess.check_call(['pdflatex', '-output-directory', output_directory, tex_path])
 
-def output_content(content: str, tex: str, output_directory: str, compile: bool = True, suffix: str = '') -> None:
-    tex = write_content(content, tex, output_directory, suffix)
+def output_content(content: str, tex_file_name: str, output_directory: str, compile: bool = True, suffix: str = '') -> None:
+    tex_path = write_content(content, tex_file_name, output_directory, suffix)
     if compile:
-        compile_tex(tex, output_directory)
+        compile_tex(tex_path, output_directory)
 
 def cleanup(directory: str, blacklist: list[str] = ['.aux', '.log', '.out', '.toc']) -> None:
     for file_name in os.listdir(directory):
@@ -48,18 +51,18 @@ def cleanup(directory: str, blacklist: list[str] = ['.aux', '.log', '.out', '.to
         if any(file_name.endswith(extension) for extension in blacklist):
             os.remove(file_path)
 
-def multitex(tex: str, output_directory: str, compile: bool = True, base_suffix: str = '') -> None:
+def multitex(tex_path: str, output_directory: str, compile: bool = True, base_suffix: str = '') -> None:
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
-    levels = compilation_levels(tex)
-    content = sanitize_tex(tex, levels)
-    tex = os.path.splitext(os.path.basename(tex))[0]
-    output_content(content, tex, output_directory, compile, base_suffix)
-
-    for level, flag in sorted(levels.items()):
+    level_flags = map_level_flags(parse_levels(tex_path))
+    content = sanitize_tex(tex_path, level_flags)
+    tex_file_name = os.path.splitext(os.path.basename(tex_path))[0]
+    output_content(content, tex_file_name, output_directory, compile, base_suffix)
+    
+    for level, flag in sorted(level_flags.items()):
         content = content.replace(f'\\{flag}false', f'\\{flag}true')
-        output_content(content, tex, output_directory, compile, level)
+        output_content(content, tex_file_name, output_directory, compile, level)
 
     cleanup(output_directory)
 
