@@ -1,6 +1,5 @@
 import argparse
 import subprocess
-import shutil
 import re
 import os
 
