@@ -5,18 +5,18 @@
 
 % Use \newif\if{{<number>}} to define boolean flags for each cumulative level,
 % and explicitly set them all to false using \{{<number>}}false
-\newif\ifb % 2nd level, includes base contents
-\newif\ifa % 3rd level, includes 2nd level contents and base contents...
-\btrue
-\afalse
+\newif\ifa % 2nd level, includes base contents
+\newif\ifb % 3rd level, includes 2nd level contents and base contents...
+\atrue
+\bfalse
 
 \title{Example}
 \begin{document}
 	\maketitle
 	\begin{enumerate}
-		\item This item is part of the base contents of the document.\ifb{ This sentence is only shown at levels 2 and above.}\fi
-		\ifb
-			\item This item is only shown at levels 2 and above.\ifa{ This sentence is only shown at level 3.}\fi
+		\item This item is part of the base contents of the document.\ifa{ This sentence is only shown at levels 2 and above.}\fi
+		\ifa
+			\item This item is only shown at levels 2 and above.\ifb{ This sentence is only shown at level 3.}\fi
 		\fi
 	\end{enumerate}
 \end{document}

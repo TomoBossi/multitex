@@ -30,10 +30,10 @@ def sanitize_tex(tex: str, output_directory: str, levels: dict[str, str]) -> str
     return content
 
 def write_content(content: str, tex: str, output_directory: str, suffix: str) -> str:
-    output_file = f'{output_directory}/{tex.split('.')[0]}{'_' if suffix else ''}{suffix}.tex'
-    with open(output_file, 'w') as file:
+    file_path = os.path.join(output_directory, f'{tex.split('.')[0]}{'_' if suffix else ''}{suffix}.tex')
+    with open(file_path, 'w') as file:
        file.write(content)
-    return output_file
+    return file_path
 
 def compile_tex(tex: str, output_directory: str) -> None:
     subprocess.check_call(['pdflatex', '-output-directory', output_directory, tex])
