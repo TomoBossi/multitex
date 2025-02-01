@@ -43,7 +43,7 @@ def output_content(content: str, tex: str, output_directory: str, compile: bool 
     if compile:
         compile_tex(tex, output_directory)
 
-def cleanup(directory: str, blacklist: list[str] = ['aux', 'log', 'out', 'toc', 'lof', 'lot', 'fls', 'fdb_latexmk']) -> None:
+def cleanup(directory: str, blacklist: list[str] = ['.aux', '.log', '.out', '.toc']) -> None:
     for file_name in os.listdir(directory):
         file_path = os.path.join(directory, file_name)
         if any(file_name.endswith(extension) for extension in blacklist):
