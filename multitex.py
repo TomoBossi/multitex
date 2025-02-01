@@ -49,7 +49,7 @@ def cleanup(directory: str, blacklist: list[str] = ['.aux', '.log', '.out', '.to
         if any(file_name.endswith(extension) for extension in blacklist):
             os.remove(file_path)
 
-def main(tex: str, output_directory: str, compile: bool = True, base_suffix: str = '') -> None:
+def multitex(tex: str, output_directory: str, compile: bool = True, base_suffix: str = '') -> None:
     if os.path.exists(output_directory):
         shutil.rmtree(output_directory)
     os.mkdir(output_directory)
@@ -67,9 +67,4 @@ def main(tex: str, output_directory: str, compile: bool = True, base_suffix: str
 
 if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    main(
-        'example.tex',
-        'out',
-        compile=True,
-        base_suffix='1'
-    )
+    multitex('example.tex', 'out', compile=True, base_suffix='1')
