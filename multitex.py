@@ -7,7 +7,7 @@ def flag_generator() -> str:
     length = 1
     while True:
         for i in range(26**length):
-            result = ""
+            result = ''
             num = i
             for _ in range(length):
                 result = chr(num % 26 + ord('a')) + result
@@ -30,7 +30,7 @@ def sanitize_tex(tex: str, output_directory: str, levels: dict[str, str]) -> str
     return content
 
 def write_content(content: str, tex: str, output_directory: str, suffix: str) -> str:
-    file_path = os.path.join(output_directory, f'{tex.split('.')[0]}{'_' if suffix else ''}{suffix}.tex')
+    file_path = os.path.join(output_directory, f'{tex.split('.')[0]}{f'_{suffix}' if suffix else ''}.tex')
     with open(file_path, 'w') as file:
        file.write(content)
     return file_path
