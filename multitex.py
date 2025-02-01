@@ -72,7 +72,7 @@ if __name__ == '__main__':
     parser.add_argument('tex', type=str, help='Path to the .tex file to be multitexed :)')
     parser.add_argument('dir', type=str, help='Path to the output directory where the generated .tex files and compiled .pdf files will be saved')
     parser.add_argument('--compile', type=bool, default=True, help='Specifies whether or not the generated .tex files should be compiled using pdflatex (Optional, default value is True)')
-    parser.add_argument('--suffix', type=str, default='1', help='Suffix for the base case filenames (Optional, default value is 1)')
+    parser.add_argument('--suffix', type=str, default='', help='Suffix for the base case filenames (Optional, default value is empty string)')
     args = parser.parse_args()
     
     multitex(args.tex, args.dir, compile=args.compile, base_suffix=args.suffix)
