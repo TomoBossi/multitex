@@ -68,8 +68,6 @@ def multitex(tex_path: str, output_directory: str, compile: bool = True, base_su
 
 
 if __name__ == '__main__':
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    
     parser = argparse.ArgumentParser(description='Generate and compile a series of .tex files that build on top of each other, from a single source .tex')
     parser.add_argument('tex', type=str, help='Path to the .tex file to be multitexed :)')
     parser.add_argument('dir', type=str, help='Path to the output directory where the generated .tex files and compiled .pdf files will be saved')
