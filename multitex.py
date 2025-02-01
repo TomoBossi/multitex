@@ -40,7 +40,7 @@ def write_content(content: str, tex_file_name: str, output_directory: str, suffi
 def compile_tex(tex_path: str, output_directory: str) -> None:
     subprocess.check_call(['pdflatex', '-output-directory', output_directory, tex_path])
 
-def output_content(content: str, tex_file_name: str, output_directory: str, compile: bool = True, suffix: str = '') -> None:
+def generate_outputs(content: str, tex_file_name: str, output_directory: str, compile: bool = True, suffix: str = '') -> None:
     tex_path = write_content(content, tex_file_name, output_directory, suffix)
     if compile:
         compile_tex(tex_path, output_directory)
@@ -58,11 +58,11 @@ def multitex(tex_path: str, output_directory: str, compile: bool = True, base_su
     level_flags = map_level_flags(parse_levels(tex_path))
     content = sanitize_tex(tex_path, level_flags)
     tex_file_name = os.path.splitext(os.path.basename(tex_path))[0]
-    output_content(content, tex_file_name, output_directory, compile, base_suffix)
     
+    generate_outputs(content, tex_file_name, output_directory, compile, base_suffix)
     for level, flag in sorted(level_flags.items()):
         content = content.replace(f'\\{flag}false', f'\\{flag}true')
-        output_content(content, tex_file_name, output_directory, compile, level)
+        generate_outputs(content, tex_file_name, output_directory, compile, level)
 
     cleanup(output_directory)
 
