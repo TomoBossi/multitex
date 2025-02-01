@@ -3,7 +3,7 @@ import shutil
 import re
 import os
 
-def flag_generator():
+def flag_generator() -> str:
     length = 1
     while True:
         for i in range(26**length):
