@@ -1,3 +1,4 @@
+import argparse
 import subprocess
 import shutil
 import re
@@ -67,4 +68,12 @@ def multitex(tex: str, output_directory: str, compile: bool = True, base_suffix:
 
 if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    multitex('example.tex', 'out', compile=True, base_suffix='1')
+    
+    parser = argparse.ArgumentParser(description='Provide a .tex file, an output directory, and optionally specify whether or not the generated .tex files should be compiled and provide a suffix for the base case filenames')
+    parser.add_argument('tex', type=str, help='Path to the .tex file to be multitexed :)')
+    parser.add_argument('dir', type=str, help='Path to the output directory where the generated .tex files and compiled .pdf files will be saved')
+    parser.add_argument('--compile', type=bool, default=True, help='Specifies whether or not the generated .tex files should be compiled using pdflatex (Optional, default value is True)')
+    parser.add_argument('--suffix', type=str, default='1', help='Suffix for the base case filenames (Optional, default value is 1)')
+    args = parser.parse_args()
+    
+    multitex(args.tex, args.dir, compile=args.compile, base_suffix=args.suffix)
