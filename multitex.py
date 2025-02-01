@@ -16,11 +16,10 @@ def flag_generator() -> str:
         length += 1
 
 def compilation_levels(tex: str, pattern: str = r'{{(\d+)}}') -> dict[str, str]:
-    results = set()
     flag = flag_generator()
     with open(tex, 'r') as file:
-        results.update(re.findall(pattern, file.read()))
-    return {level: next(flag) for level in sorted(list(results))}
+        results = sorted(list(set(re.findall(pattern, file.read()))))
+    return {level: next(flag) for level in results}
 
 def sanitize_tex(tex: str, output_directory: str, levels: dict[str, str]) -> str:
     with open(tex, 'r') as file:
