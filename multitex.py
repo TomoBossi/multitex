@@ -20,7 +20,7 @@ def compilation_levels(tex: str, pattern: str = r'{{(\d+)}}') -> dict[str, str]:
     flag = flag_generator()
     with open(tex, 'r') as file:
         results.update(re.findall(pattern, file.read()))
-    return {level: next(flag) for level in results}
+    return {level: next(flag) for level in sorted(list(results))}
 
 def sanitize_tex(tex: str, output_directory: str, levels: dict[str, str]) -> str:
     with open(tex, 'r') as file:
