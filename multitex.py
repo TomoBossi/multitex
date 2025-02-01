@@ -21,7 +21,7 @@ def compilation_levels(tex: str, pattern: str = r'{{(\d+)}}') -> dict[str, str]:
         results = sorted(list(set(re.findall(pattern, file.read()))))
     return {level: next(flag) for level in results}
 
-def sanitize_tex(tex: str, output_directory: str, levels: dict[str, str]) -> str:
+def sanitize_tex(tex: str, levels: dict[str, str]) -> str:
     with open(tex, 'r') as file:
         content = file.read()
         for level, flag in levels.items():
@@ -29,7 +29,7 @@ def sanitize_tex(tex: str, output_directory: str, levels: dict[str, str]) -> str
     return content
 
 def write_content(content: str, tex: str, output_directory: str, suffix: str) -> str:
-    file_path = os.path.join(output_directory, f'{tex.split('.')[0]}{f'_{suffix}' if suffix else ''}.tex')
+    file_path = os.path.join(output_directory, f'{tex}{f'_{suffix}' if suffix else ''}.tex')
     with open(file_path, 'w') as file:
        file.write(content)
     return file_path
@@ -53,7 +53,8 @@ def multitex(tex: str, output_directory: str, compile: bool = True, base_suffix:
         os.makedirs(output_directory)
 
     levels = compilation_levels(tex)
-    content = sanitize_tex(tex, output_directory, levels)
+    content = sanitize_tex(tex, levels)
+    tex = os.path.splitext(os.path.basename(tex))[0]
     output_content(content, tex, output_directory, compile, base_suffix)
 
     for level, flag in sorted(levels.items()):

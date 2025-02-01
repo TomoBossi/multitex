@@ -4,6 +4,6 @@ Generate and compile a series of .tex files that build on top of each other, fro
 
 Example usage:
 
-`python multitex.py example.tex out`
+`python multitex.py example/example.tex example/out`
 
-`python multitex.py example.tex out --compile False --suffix base`
+`python multitex.py example/example.tex example/out --compile False --suffix base`
