@@ -24,10 +24,10 @@ def map_level_flags(levels: list[str]) -> dict[str, str]:
     flag = flag_generator()
     return {level: next(flag) for level in levels}
 
-def sanitize_tex(tex_path: str, levels: dict[str, str]) -> str:
+def sanitize_tex(tex_path: str, level_flags: dict[str, str]) -> str:
     with open(tex_path, 'r') as file:
         content = file.read()
-        for level, flag in levels.items():
+        for level, flag in level_flags.items():
             content = content.replace(f'{{{{{level}}}}}', flag)
     return content
 
